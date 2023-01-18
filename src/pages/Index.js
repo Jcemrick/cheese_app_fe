@@ -1,20 +1,19 @@
-import { Link, useLoaderData, Form } from 'react-router-dom';
+import { Link, useLoaderData, Form, useState } from 'react-router-dom';
 
+function Index(props){
+    const [titleState, setTitleState] = useState('')
+    const [urlState, setUrlState] = useState('')
+    function handleSubmit(e){
+        console.log("SUBMITT")
+        setTitleState('')
+        setUrlState('')
+    }
 
-function Index(props) {
     const cheeses = useLoaderData()
 
     return (
+        
         <div>
-            <h2>Add a Cheese</h2>
-            <Form action='/create' method='post'>
-                <input type='input' name='name' placeholder='Cheese Name' />
-                <input type='input' name='countryOfOrigin' placeholder='Cheese Country of Origin' />
-                <input type='input' name='image' placeholder='Cheese Image Link' />
-                <input type='submit' value='Add Cheese' />
-            </Form>
-
-    
         {cheeses.map((cheese) => (
         <div key={cheese._id} className='cheese'>
             <Link to={`/${cheese._id}`}>
@@ -24,8 +23,27 @@ function Index(props) {
             <h3>{cheese.countryOfOrigin}</h3>
         </div>
     ))}
+
+        <h1>Create a new Bookmark</h1>
+        <Form onSubmit={handleSubmit} action = '/create' method='post'>
+            <input 
+            type='text' 
+            name ='title'
+            placeholder='Title' 
+            value={titleState} 
+            onChange = {event => setTitleState(event.target.value)} 
+            />
+
+            <input 
+            type='text' 
+            name = 'url'
+            placeholder='URL'
+            value={urlState}
+            onChange = {event => setUrlState(event.target.value)}
+            />
+            <input type='submit'/>
+        </Form>
+        <h1>INDEX COMPONENT</h1>
     </div>
     )
 }
-
-export default Index
